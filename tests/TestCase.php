@@ -15,4 +15,6 @@ class TestCase extends \Orchestra\Testbench\TestCase
             TestServiceProvider::class
         ];
     }
+
+
 }

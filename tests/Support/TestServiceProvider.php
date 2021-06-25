@@ -9,4 +9,5 @@ class TestServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $this->loadRoutesFrom(__DIR__.'/routes.php');
     }
+
 }

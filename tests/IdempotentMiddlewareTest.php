@@ -4,9 +4,8 @@ namespace Lidongyooo\Idempotent\Tests;
 
 class IdempotentMiddlewareTest extends TestCase
 {
-    public function testToken()
+    public function testHandle()
     {
-        $response = $this->post('token');
-        $response->assertStatus(200);
+        $response = $this->post('tests');
     }
 }

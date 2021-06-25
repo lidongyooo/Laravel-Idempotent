@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Str;
-
-\Route::post('token', function (){
-    return Str::uuid();
+\Route::group([
+    'middleware' => ['idempotent']
+], function () {
+    \Route::resource('tests', \Lidongyooo\Idempotent\Tests\Support\TestsController::class);
 });
