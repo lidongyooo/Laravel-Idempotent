@@ -18,7 +18,7 @@ Class IdempotentServiceProvider extends \Illuminate\Support\ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__.'/../config/idempotent.php' => config_path('idempotent.php')
-            ]);
+            ], 'idempotent');
         }
     }
 
