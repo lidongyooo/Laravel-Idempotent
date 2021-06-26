@@ -1,7 +1,8 @@
 <?php
 
 return [
-    'forcible' => true,
+
+    'forcible' => false,
 
     'methods' => [
         'POST' => [
