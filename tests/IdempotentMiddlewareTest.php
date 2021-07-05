@@ -38,15 +38,4 @@ class IdempotentMiddlewareTest extends TestCase
         $response = $this->post('tests', [], $headers);
         $response->assertStatus(425);
     }
-
-    public function testGenerateKey()
-    {
-        $response = $this->post('idempotent');
-        $idempotentKey1 = $response->getContent();
-
-        $response = $this->post('idempotent');
-        $idempotentKey2 = $response->getContent();
-
-        $this->assertTrue($idempotentKey1 === $idempotentKey2);
-    }
 }

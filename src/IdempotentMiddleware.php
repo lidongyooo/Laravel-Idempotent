@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 class IdempotentMiddleware
 {
+    use IdempotentKeyGenerator;
+
     protected $method;
 
     protected $config;
@@ -16,7 +18,6 @@ class IdempotentMiddleware
 
     public function handle(Request $request, \Closure $next, $save = false)
     {
-        $this->save($save);
         $this->method = $request->getMethod();
         $this->config = config('idempotent');
 
@@ -35,11 +36,16 @@ class IdempotentMiddleware
         }
 
         \Cache::put($this->getCacheKey($idempotentKey), self::PLACE_HOLDER);
+        $this->setSave($save);
         return $next($request);
     }
 
     public function terminate($request, $response)
     {
+        if (is_null($this->save)) {
+            return;
+        }
+
         if ($this->save) {
             \Cache::put($this->getCacheKey($request->header($this->config['header_name'])), $response, $this->config['methods'][$this->method]['save_ttl']);
         } else {
@@ -67,10 +73,10 @@ class IdempotentMiddleware
 
     protected function getIdempotentKey()
     {
-        return $this->config['forcible'] ? IdempotentKeyGenerator::generate() : \request()->header($this->config['header_name']);
+        return $this->config['forcible'] ? $this->generate() : \request()->header($this->config['header_name']);
     }
 
-    protected function save($save)
+    protected function setSave($save)
     {
         $this->save = $save ? true : $this->config['methods'][$this->method]['save'];
     }

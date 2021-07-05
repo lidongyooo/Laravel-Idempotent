@@ -2,10 +2,10 @@
 
 namespace Lidongyooo\Idempotent;
 
-class IdempotentKeyGenerator
+Trait IdempotentKeyGenerator
 {
 
-    public static function generate()
+    public function generate()
     {
         $user = auth()->user();
 
