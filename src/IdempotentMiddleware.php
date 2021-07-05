@@ -2,6 +2,7 @@
 
 namespace Lidongyooo\Idempotent;
 
+use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Http\Request;
 
 class IdempotentMiddleware
@@ -46,7 +47,7 @@ class IdempotentMiddleware
             return;
         }
 
-        if ($this->save && !$response->exception) {
+        if ($this->save && !app()->resolved(ExceptionHandler::class)) {
             \Cache::put($this->getCacheKey($request->header($this->config['header_name'])), $response, $this->config['methods'][$this->method]['save_ttl']);
         } else {
             \Cache::forget($this->getCacheKey($request->header($this->config['header_name'])));
