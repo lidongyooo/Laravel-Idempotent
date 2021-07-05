@@ -13,4 +13,9 @@ class TestsController extends \Illuminate\Routing\Controller
     {
         return 'store';
     }
+
+    public function exception()
+    {
+        throw new \Exception('error');
+    }
 }

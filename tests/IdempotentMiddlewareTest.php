@@ -38,4 +38,15 @@ class IdempotentMiddlewareTest extends TestCase
         $response = $this->post('tests', [], $headers);
         $response->assertStatus(425);
     }
+
+    public function testException()
+    {
+        $headers = [
+            config('idempotent.header_name') => md5('idempotent')
+        ];
+
+        $this->post('tests/exception', [], $headers);
+        $response = $this->post('tests/exception', [], $headers);
+        $response->assertStatus(500);
+    }
 }

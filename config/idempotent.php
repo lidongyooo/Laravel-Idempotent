@@ -5,13 +5,13 @@ return [
     /**
      * 强制模式
      * forcible = true 将不需要前端传递唯一字符，否则请传递唯一字符
-     * 关于字符生成算法请参考：Lidongyooo\Idempotent\IdempotentKeyGenerator
+     * 字符生成算法：Lidongyooo\Idempotent\IdempotentKeyGenerator
      */
 
     'forcible' => false,
 
     /**
-     * 启用幂等的方法
+     * 启用幂等限制的方法
      * GET、DELETE 的特性天然符合幂等要求
      */
 
@@ -37,7 +37,7 @@ return [
     'header_name' => 'Idempotent-Key',
 
     /**
-     * 如果当前请求是缓存的，会将此字段添加至响应首部中
+     * 如果当前请求是缓存过的，此字段将会添加至响应首部中
      */
 
     'back_header_name' => 'Idempotent-Repeated'
