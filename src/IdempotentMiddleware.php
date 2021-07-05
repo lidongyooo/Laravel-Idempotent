@@ -46,7 +46,7 @@ class IdempotentMiddleware
             return;
         }
 
-        if ($this->save) {
+        if ($this->save && !$response->exception) {
             \Cache::put($this->getCacheKey($request->header($this->config['header_name'])), $response, $this->config['methods'][$this->method]['save_ttl']);
         } else {
             \Cache::forget($this->getCacheKey($request->header($this->config['header_name'])));
