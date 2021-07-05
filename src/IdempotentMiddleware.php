@@ -10,10 +10,13 @@ class IdempotentMiddleware
 
     protected $config;
 
+    protected $save;
+
     const PLACE_HOLDER = 'idempotent_place_holder';
 
     public function handle(Request $request, \Closure $next, $save = false)
     {
+        $this->save($save);
         $this->method = $request->getMethod();
         $this->config = config('idempotent');
 
@@ -32,16 +35,16 @@ class IdempotentMiddleware
         }
 
         \Cache::put($this->getCacheKey($idempotentKey), self::PLACE_HOLDER);
+        return $next($request);
+    }
 
-        $response = $next($request);
-
-        if ($this->save($save)) {
-            \Cache::put($this->getCacheKey($idempotentKey), $response, $this->config['methods'][$this->method]['save_ttl']);
+    public function terminate($request, $response)
+    {
+        if ($this->save) {
+            \Cache::put($this->getCacheKey($request->header($this->config['header_name'])), $response, $this->config['methods'][$this->method]['save_ttl']);
         } else {
-            \Cache::forget($this->getCacheKey($idempotentKey));
+            \Cache::forget($this->getCacheKey($request->header($this->config['header_name'])));
         }
-
-        return $response;
     }
 
     protected function repeated($idempotentKey)
@@ -69,6 +72,6 @@ class IdempotentMiddleware
 
     protected function save($save)
     {
-        return $save ? true : $this->config['methods'][$this->method]['save'];
+        $this->save = $save ? true : $this->config['methods'][$this->method]['save'];
     }
 }

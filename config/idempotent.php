@@ -2,6 +2,10 @@
 
 return [
 
+    /**
+     * 强制模式
+     *
+     */
     'forcible' => false,
 
     'methods' => [

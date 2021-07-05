@@ -10,6 +10,7 @@ Class IdempotentServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/idempotent.php', 'idempotent');
         $this->loadRoutesFrom(__DIR__.'/routes.php');
 
+        $this->app->singleton(IdempotentMiddleware::class);
         $this->app['router']->aliasMiddleware('idempotent', IdempotentMiddleware::class);
     }
 
