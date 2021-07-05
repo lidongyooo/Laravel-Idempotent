@@ -37,6 +37,18 @@ Route::post('/test', function () {
     return 'test';
 })->middleware('idempotent');
 ```
+或者你可以将它加入到指定路由中间件组中
+
+```php
+protected $middlewareGroups = [
+    // ...
+    'api' => [
+        'idempotent',
+        'throttle:api',
+        \Illuminate\Routing\Middleware\SubstituteBindings::class,
+    ],
+];
+```
 
 ## 返回值
 
