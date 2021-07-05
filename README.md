@@ -36,6 +36,11 @@ php artisan vendor:publish --tag="laravel-idempotent"
 Route::post('/test', function () {
     return 'test';
 })->middleware('idempotent');
+
+//如果你想强制缓存响应
+Route::post('/test', function () {
+    return 'test';
+})->middleware('idempotent:true');
 ```
 或者你可以将它加入到指定路由中间件组中
 
