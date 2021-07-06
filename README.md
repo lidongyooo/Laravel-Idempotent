@@ -22,7 +22,7 @@ $ composer require lidongyooo/laravel-idempotent -vvv
 2. 创建配置文件
 
 ```
-php artisan vendor:publish --tag="laravel-idempotent"
+$ php artisan vendor:publish --tag="laravel-idempotent"
 ```
 
 3. 查看应用根目录下的 `config/idempotent.php`
